@@ -1,0 +1,409 @@
+				React Native
+.....................................................................................
+
+1.Javascript -ES 6
+   let,const,literals
+   functions- arrow functions
+   classes and inheritance
+   Promises and async await keywords
+
+2.React Js 16 on wards features
+
+3.Redux for statement management
+
+4.React Native
+....................................................................................
+			   Software setup
+...................................................................................
+1.node.js - 14 onwards
+2.vs code 
+....................................................................................
+
+ES 6 Features
+
+What is ES(ECMA Script) 6?
+  ES 6 is new Javascript version
+
+1.variable declarations
+ 
+ var - ES 5 keyword - dont use in ES 6 application
+ let /const - es 6 keywords
+
+2.literals -values
+   strings,numbers,boolean,undefined,NaN,infinity,function,null,object
+
+3.functions - arrow
+
+4.class
+
+5.modules
+
+Basic literals:
+//literals 
+//
+//let or const 
+//strings : "",'',``,${}
+
+let firstName = "Subramanian";
+let lastName = 'Murugan'
+console.log(" Name " + firstName + lastName)
+console.log(" Name ", firstName, lastName)
+//es 6 way of printing
+console.log(`Name ${firstName} , ${lastName}`)
+//numbers 
+let salary = 10000;
+console.log(`Salary ${salary}`)
+//booleans 
+let isValid = true
+console.log(`isValid ${isValid}`)
+//undefined
+let qty;
+console.log(`Qty ${qty}`)
+//NaN - Not a Number -  Numerical Error
+/**
+ * 1.if you do computation against undefined
+ * 2.if you do typeconversion, if variable is having speacial characters
+ */
+let totalPrice = qty * 100;
+console.log(`Totatal Qty ${totalPrice}`)
+
+//typconversion string to number 
+//automatic /implicit conversion
+let stock = "10" //string 
+let totalStock = stock * 10
+console.log(`Total Stock ${totalStock}`)
+//using parse functions
+totalStock = parseInt(stock) * 10
+console.log(`Total Stock ${totalStock}`)
+//using unary + operator
+totalStock = +stock * 10
+console.log(`Total Stock ${totalStock}`)
+//using Number function 
+//using unary + operator
+totalStock = Number(stock) * 10
+console.log(`Total Stock ${totalStock}`)
+//Nan and Type conversion
+stock = "$10"
+totalStock = stock * 10
+console.log(`Total Stock ${totalStock}`)
+//////////////
+//infinity 
+let avgSalary = 10000 / 0
+console.log(`Avg Salary ${avgSalary}`)
+.....................................................................................
+//Advance booleans 
+/**
+ * in javascript every thing is true except the following values
+ * 
+ * //falsy values 
+ * 1.boolean false 
+ * 2.0
+ * 3.undefined
+ * 4.NaN
+ * 5.null false 
+ * 6.empty string
+ * 
+ */
+// let salary = 100
+let salary = 0
+
+if (salary) {
+    console.log('salary is found')
+} else {
+    console.log('salary not found')
+}
+
+//tenary operator
+salary ? console.log('salary is found') : console.log('salary not found')
+
+// ===
+
+let a = 10
+let b = 10
+
+let c = a == b ? "equal" : "Not Equal"
+console.log(c)
+
+//use always === operator
+let x = "10"
+let y = 10
+c = x === y ? "equal" : "Not Equal"
+console.log(c)
+.................................................................................
+				functions
+//functions
+
+//syntax -1 
+function sayHello() {
+    console.log('Hello')
+}
+sayHello()
+//syntax -2 : function - literals - can be assigned to a variable,can be passed as param or returned from the another function 
+
+//anonmous function 
+let hai = function () {
+    console.log('Hai')
+};
+hai();
+//args and parameters
+
+let add = function (a = 0, b = 0) {
+    return a + b
+}
+console.log(add(10, 10))
+console.log(add())
+
+
+//arrow functions
+let hai = () => {
+    console.log('Hai')
+};
+hai();
+//rules for arrow functions 
+
+//if function has only one line of body, we can remove {}
+hai = () => console.log('Hai');
+hai();
+//args and parameters
+let add = function (a, b) {
+    return a + b
+}
+console.log(add(10, 10))
+
+//if function has only return statement , remove {} and return statement
+add = (a = 0, b = 0) => a + b
+console.log(add(10, 10))
+..................................................................................
+
+//let and const 
+
+let a = 10;
+console.log(a)
+a = 100;
+console.log(a)
+
+//constants are read only, we cant reinitalize
+const b = 100;
+console.log(b)
+b = 900
+....................................................................................
+			  Objects features
+....................................................................................
+
+Object creation:
+
+1.constructors pattern
+  Using functions - es 5 style
+  Using classes - es 6 style
+2.literal pattern
+// es 6 class 
+
+class Customer {
+    constructor(id = 0, name = '', city = '') {
+        //instance variables
+        this.id = id
+        this.name = name
+        this.city = city
+    }
+}
+
+//customer is reference variable
+//new is keyword
+//Cusotomer() - constructor call 
+let customer = new Customer(1, 'Subramanian', 'Coimbatore');
+console.log(`${customer.id} ${customer.name} ${customer.city}`)
+
+class OrderService {
+    constructor() {
+    }
+    //methods
+    findAll() {
+        return 'orders'
+    }
+}
+let orderService = new OrderService()
+console.log(orderService.findAll())
+
+///////////////////////////////////////////////////////////////////////////////////
+
+//literal pattern 
+
+let product = {
+    id: 1,
+    name: 'Phone',
+    category: {
+        type: 'Electronincs'
+    }
+}
+....................................................................................
+				Module patterns
+....................................................................................
+
+How to write javascript into files and folders?
+
+ inside file , we have to write code, that needs to be shared across other files
+
+Patterns
+1.Namespace
+2.amd
+3.commonjs
+4.ES 6 modules
+5.system
+6.umd
+
+These patterns are popular in coding
+3.commonjs - used inside node apps
+4.ES 6 modules - both node and also browsers
+....................................................................................
+			 ES 6 modules
+...................................................................................
+
+There are keywords
+
+1.export , export default  - are used to share code
+2.import - used to link code
+
+src
+ |
+ todos
+
+ES 6 module code cant be executed inside browser directly.
+
+We need build tools:
+
+1.webpack
+
+How to install webpack in our project?
+
+Steps:
+
+1.make sure that you have package.json file
+ if not , create package.json file
+
+npm init
+
+2.install webpack
+  npm install webpack webpack-cli --save-dev
+
+3.add webpack.config.js in the project root dir
+
+const path = require('path');
+
+const path = require('path');
+
+module.exports = {
+  entry: './build/index.js',
+  mode:'development',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js',
+  },
+};
+
+4.build /bundle your code
+ open package.json
+ add entry into scripts
+
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  }
+
+5.start bundling
+  open cmd and run the following command
+npm run build
+
+> es6-apps@1.0.0 build
+> webpack
+
+asset bundle.js 5.19 KiB [emitted] (name: main)
+runtime modules 670 bytes 3 modules
+cacheable modules 758 bytes
+  ./src/index.js 146 bytes [built] [code generated]
+  ./src/mylib.js 612 bytes [built] [code generated]
+webpack 5.70.0 compiled successfully in 113 ms
+
+6.add bundle file inside index.html
+     <script src="dist/bundle.js"></script>
+
+
+
+export const TODOS = [
+    {
+        id: 1,
+        userId: 1,
+        title: 'Learn React',
+        done: false
+    },
+    {
+        id: 2,
+        userId: 2,
+        title: 'Learn React Native',
+        done: false
+    },
+    {
+        id: 3,
+        userId:3,
+        title: 'Learn ES 6',
+        done: true
+    }
+]
+
+import TodoService from "./todos/todo.service";
+
+function main() {
+    let todoService = new TodoService()
+    console.log(todoService.findAll())
+}
+main()
+.........
+import { TODOS } from './todo.mock'
+
+class TodoService {
+    constructor() { }
+    //return todos 
+    findAll() {
+        return TODOS
+    }
+}
+export default TodoService;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
