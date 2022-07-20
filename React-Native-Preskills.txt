@@ -367,6 +367,213 @@ class TodoService {
     }
 }
 export default TodoService;
+...................................................................................
+				React fundamentals
+...................................................................................
+
+What is React?
+  React is javascript lib for building user interfaces.
+
+User interfaces:
+
+1.Browsers 
+2.Desktop apps
+3.Mobile apps  
+   
+React was created to build browser apps initally, later react team scaled react js for building other areas.
+
+React projects
+
+1.React for browser - React Web
+    -React.js
+2.React for Mobile - React Native
+    -React.js + Mobile Work flows
+
+in order to build user interface apps using react, Facebook(react team) introduced new programming language (JSX-Javascript and XML).
+
+All React apps are written using JSX language.
+...................................................................................
+			 JSX
+
+
+JSX extends the markup syntax with javascript 
+
+markup language:
+ Language to design ui elements
+
+JSX propses different markup syntax for different user interfaces
+
+For Browser based apps, we use "html" is the markup
+For Mobile apps, we dont use "html", rather we use speacial markup provided by React Native.
+
+Javascript:
+  Javascript is going to have logic of your app.
+  which is common for any device.
+.....................................................................................
+			UI design principles
+
+1.components:
+   Component represents an ui in complex user interface apps
+  Component is object having state and userinterace , logic to update the user interface
+  Component = {ui markup + state(data) + how to update state(listener)}
+.....................................................................................
+	
+React getting starting started;
+..............................
+
+core libs:
+
+react.js - which is common for both react and react native
+react-dom - which is specific to browser		
+
+
+User interface building blockings:
+.................................
+
+You are going to use jsx language.
+
+1.Component creation.
+  
+there are three patterns
+1.variable pattern
+2.functional pattern
+3.class pattern
+
+More used patterns
+1.functional pattern
+
+
+1.variable pattern
+
+//first component using variables
+import React from 'react'
+import ReactDOM from 'react-dom'
+
+/**
+ * const VariableName = markup + js 
+ */
+const Header = <div>
+    <h1>Hello React!</h1>
+</div>
+
+//render into browser 
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+root.render(Header)
+
+
+.................
+functions
+
+import React from 'react'
+import ReactDOM from 'react-dom'
+
+
+// function Header(){
+//     //return jsx 
+//     return <div>
+//         <h1>Hello React!</h1>
+//     </div>
+// }
+
+
+// const Header = () => {
+//     //return jsx 
+//     return <div>
+//         <h1>Hello React!!</h1>
+//     </div>
+// }
+const Header = () => <div>
+    <h1>Hello React!!</h1>
+</div>
+
+
+//render into browser 
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+// root.render(<Header></Header>)
+root.render(<Header />)
+
+...................................................................................
+
+classes:
+.......
+
+import React from 'react'
+import ReactDOM from 'react-dom'
+
+
+// class component 
+class Header extends React.Component {
+
+    render() {
+        return <div>
+            <h1>React!!!</h1>
+        </div>
+    }
+}
+
+//render into browser 
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+// root.render(<Header></Header>)
+root.render(<Header />)
+...................................................................................
+		    Component Driven Design principles
+
+
+1.In large application, the application is broken into smaller components.
+
+How components are assembled in UI?
+
+ Using tree patterns
+				TopNode(RootNode)
+				     |
+				--------------
+				|    |      |
+                              Node-1  Node-2 Node-3
+				|
+                              Node-1.1
+
+
+Components are organized as tree called "component tree". which is other wise called as component composition.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
