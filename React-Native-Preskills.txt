@@ -537,6 +537,954 @@ How components are assembled in UI?
 
 
 Components are organized as tree called "component tree". which is other wise called as component composition.
+....................................................................................
+				Component tree
+
+
+import React from 'react'
+import ReactDOM from 'react-dom'
+
+//Layouts
+const Header = () => <div>
+    <h1>Header</h1>
+</div>
+const Footer = () => <div>
+    <h3>Footer</h3>
+</div>
+const Body = () => <div>
+    <p>This is body</p>
+</div>
+
+const Page = () => <div>
+    <Header />
+    <Body />
+    <Footer />
+</div>
+
+//root Node 
+const App = () => <div>
+    <Page />
+</div>
+
+
+//render into browser 
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+// root.render(<Header></Header>)
+root.render(<App />)
+..................................................................................
+				Folder Structure
+...................................................................................
+			Component Compostion and Modularity
+..............................................................................................
+
+In react application, we dont / never dump the code into single file, we need to modularize the application.
+
+File Structure
+Is there a recommended way to structure React projects?
+
+  React doesn’t have any opinions on how you put files into folders. 
+  That said there are a few common approaches popular in the ecosystem you may want to consider.
+
+Grouping by "features" or "routes-menu"
+
+  One common way to structure projects is to locate CSS, JS, and tests together inside folders grouped by feature or route.
+			
+common or util /
+  Avatar.js
+  Avatar.css
+  APIUtils.js
+  APIUtils.test.js
+feed/
+  index.js
+  Feed.jsx
+  Feed.css
+  FeedStory.jsx
+  FeedStory.test.js
+  FeedAPI.js
+profile/
+  index.js
+  Profile.js
+  ProfileHeader.js
+  ProfileHeader.css
+  ProfileAPI.js
+
+Grouping by file type
+ Another popular way to structure projects is to group similar files together, for example:
+
+api/
+  APIUtils.js
+  APIUtils.test.js
+  ProfileAPI.js
+  UserAPI.js
+components/
+  Avatar.js
+  Avatar.css
+  Feed.js
+  Feed.css
+  FeedStory.js
+  FeedStory.test.js
+  Profile.js
+  ProfileHeader.js
+  ProfileHeader.css
+
+Some people also prefer to go further, and separate components into different folders depending on their role in the application. For example, Atomic Design is a design methodology built on this principle. Remember that it’s often more productive to treat such methodologies as helpful examples rather than strict rules to follow.
+
+               "https://bradfrost.com/blog/post/atomic-web-design/"
+
+
+File Name conventions:
+
+ FileName must match component feature  - profile 
+
+File Name can be saved as fileName.js or fileName.jsx
+
+Rules for jsx extensions:
+
+-Root file (index,App) files must not be saved with ".jsx" , root files must be saved only with .js extension.
+
+-Barrel export feature must be used in large application.
+.....................................................................................
+
+Folders
+
+src/header/Header.jsx
+
+
+export const Header = () => <div>
+    <h1>Header</h1>
+</div>
+
+src/Page.js
+import { Header } from './header/Header'
+import { Body } from './body/Body'
+import { Footer } from './footer/Footer'
+
+export const Page = () => {
+    return <div>
+        <Header />
+        <Body />
+        <Footer />
+    </div>
+
+}
+
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './App'
+
+//render into browser 
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+// root.render(<Header></Header>)
+root.render(<App />)
+....................................................................................
+				 props
+....................................................................................
+
+props means property, used to pass data from the parent component to child component
+
+data can be primitives(numbers,strings,booleans) objects (array,object)
+
+
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+
+//Parent component will send data to child component.
+const Greeter = (props) => {
+    return <div>
+        <h1>Parent Component</h1>
+        <Hello message={"Hello"} name={"Subramanian"} />
+        <Hello message={"Hello"} name={"John"} />
+        <Hello message={"Hello"} name={"Mohit"} />
+    </div>
+}
+
+const Profile = props => {
+    return <div>
+        <p>id {props.id}</p>
+        <p>Name {props.name}</p>
+        <p>City {props.address.city}</p>
+        <p>Skills</p>
+        {/* jsx comment: use for loop (map) to iterate an */}
+        <ul>
+            {
+                props.skills.map(skill => {
+                    return <li>{skill}</li>
+                })
+            }
+        </ul>
+    </div>
+}
+
+
+//props is just variable, holding data passed by parent
+//props value is literal object 
+const Hello = (props) => {
+    console.log(props)
+    return <div>
+        <h2>{props.message} {props.name}</h2>
+    </div>
+}
+
+
+
+//Child Component will receive the data from the parent
+
+
+
+
+const App = () => <div>
+    <Greeter />
+    <Profile
+        id={1}
+        name="Subramanian"
+        status={true}
+        address={{ city: 'Coimbatore' }}
+        skills={['Java', 'Javascript', 'React', 'ReactNative']}
+    />
+</div>
+
+
+//render into browser 
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+// root.render(<Header></Header>)
+root.render(<App />)
+..................................................................................
+				default Props
+...................................................................................
+
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+
+const Profile = props => {
+    return <div>
+        <p>id {props.id}</p>
+        <p>Name {props.name}</p>
+        <p>Status {props.status ? "Available" : "Not Available"}</p>
+        <p>City {props.address.city}</p>
+        <p>Skills</p>
+        {/* jsx comment: use for loop (map) to iterate an */}
+        <ul>
+            {
+                props.skills.map(skill => {
+                    return <li>{skill}</li>
+                })
+            }
+        </ul>
+    </div>
+}
+//default Props 
+Profile.defaultProps = {
+    id: 0,
+    name: '',
+    status: false,
+    address: {
+        city: ''
+    },
+    skills: []
+}
+
+
+const App = () => <div>
+    <Profile
+        id={1}
+        name="Subramanian"
+        status={true}
+        address={{ city: 'Coimbatore' }}
+        skills={['Java', 'Javascript', 'React', 'ReactNative']}
+    />
+    <Profile
+        id={2}
+        name="Karthik"
+    />
+</div>
+
+//render into browser 
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+// root.render(<Header></Header>)
+root.render(<App />)
+.....................................................................................
+
+
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import PropTypes from 'prop-types'; // ES6
+
+const Profile = props => {
+    return <div>
+        <p>id {props.id}</p>
+        <p>Name {props.name}</p>
+        <p>Status {props.status ? "Available" : "Not Available"}</p>
+        <p>City {props.address.city}</p>
+        <p>Skills</p>
+        {/* jsx comment: use for loop (map) to iterate an */}
+        <ul>
+            {
+                props.skills.map(skill => {
+                    return <li>{skill}</li>
+                })
+            }
+        </ul>
+    </div>
+}
+//default Props 
+Profile.defaultProps = {
+    id: 0,
+    name: '',
+    status: false,
+    address: {
+        city: ''
+    },
+    skills: []
+}
+//property validation
+Profile.propTypes = {
+    id: PropTypes.number,
+    name: PropTypes.string,
+    status: PropTypes.bool,
+    address: PropTypes.object,
+    skills: PropTypes.arrayOf(PropTypes.string)
+}
+
+
+
+const App = () => <div>
+    <Profile
+        id={1}
+        name="Subramanian"
+        status={true}
+        address={{ city: 'Coimbatore' }}
+        skills={['Java', 'Javascript', 'React', 'ReactNative']}
+    />
+    <Profile
+        id={2}
+        name="Karthik"
+    />
+    <Profile
+        id={"23"}
+        name="Karthik"
+    />
+</div>
+
+//render into browser 
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+// root.render(<Header></Header>)
+root.render(<App />)
+....................................................................................
+
+..............................................................................................
+			Property Validation or Property Constraints
+.............................................................................................
+
+Javascript is dynamic typed language, meaning that the type of variable is not verified during compile time.
+
+dyamic typed/weak typing
+
+var a=1;
+console.log(a) => 1 => type is number
+
+you can reinitalize the with different types
+a="hello"
+console.log(a) => "hello" => type is string
+
+In c: - Strongly typed  /static typed
+int a=10
+a="hello" -compile time error 
+
+Type script : Strongly static typed javascript
+
+let a:number =10;
+a="hello"
+
+Inside compoent if pass data , can i enforce the react that accept only the type what i want.
+
+Yes , we can do with help of property validator.
+Property validator gives only warning , it wont stop rendering incase there is any type error.
+
+
+in order to write property rule, react provides a separate lib "prop-types"
+
+Steps:
+npm install --save prop-types
+
+
+What if i dont supply Props to Component -Default Props
+.............................................................................................
+if you dont pass any property, we can supply default props which saves lot of runtime bugs.
+
+When you design component, it is highly recommended to have default Props- This is best Practice
+
+
+
+
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import PropTypes from 'prop-types'; // ES6
+
+const Profile = props => {
+    return <div>
+        <p>id {props.id}</p>
+        <p>Name {props.name}</p>
+        <p>Status {props.status ? "Available" : "Not Available"}</p>
+        <p>City {props.address.city}</p>
+        <p>Skills</p>
+        {/* jsx comment: use for loop (map) to iterate an */}
+        <ul>
+            {
+                props.skills.map(skill => {
+                    return <li>{skill}</li>
+                })
+            }
+        </ul>
+    </div>
+}
+//default Props 
+Profile.defaultProps = {
+    id: 0,
+    name: '',
+    status: false,
+    address: {
+        city: ''
+    },
+    skills: []
+}
+//property validation
+Profile.propTypes = {
+    id: PropTypes.number,
+    name: PropTypes.string,
+    status: PropTypes.bool,
+    address: PropTypes.object,
+    skills: PropTypes.arrayOf(PropTypes.string)
+}
+
+
+
+const App = () => <div>
+    <Profile
+        id={1}
+        name="Subramanian"
+        status={true}
+        address={{ city: 'Coimbatore' }}
+        skills={['Java', 'Javascript', 'React', 'ReactNative']}
+    />
+    <Profile
+        id={2}
+        name="Karthik"
+    />
+    <Profile
+        id={"23"}
+        name="Karthik"
+    />
+</div>
+
+//render into browser 
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+// root.render(<Header></Header>)
+root.render(<App />)
+
+Compoent Design Principles:
+
+	Component is designed based on "functional programming principles".
+ React lib has been designed based on functional programming principles.
+
+
+Functional Programming principles:
+
+1.pure functions
+
+ in order to certifiy the function is pure , there are two rules.
+
+A.function receives the set of args, which should return the same.
+
+
+//pure function.
+
+//pure function or not
+function getMessage(message) {
+    return message;
+}
+console.log(getMessage('hello'))
+
+//impure function
+function calculate(a) {
+    let b = 100;
+    // let res = a * 10
+    // return res;
+    return a * b;
+}
+
+
+function should not do any "side effects"(changing the input parameters, local variable,IO operation), if fun does, that function is called "impure function".
+
+
+In React where pure function is used.
+ 
+  In the component design.
+
+        "Every Component is pure function with respect to props"
+
+ Every component receives props as parameter , returns the same without mutation(side effects).
+
+import React from "react";
+import ReactDOM from "react-dom";
+import 'bootstrap/dist/css/bootstrap.css'
+
+//This function is pure function : function gets props as input and return as it is without muation.
+const Greeter = props => {
+    return <div>
+        <h1>Hello {props.name}</h1>
+    </div>
+}
+
+const App = () => <div>
+    <Greeter name="Subramnaian" />
+</div>
+ReactDOM.render(<App />, document.getElementById('root'))
+
+		    "Props are readonly"  -props should not/cant be changed
+.....................................................................................
+
+
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+
+
+//without refactoring:
+// const ProfileMaster = props => {
+//     return <ProfileDetails
+//         id={props.id}
+//         name={props.name}
+//         status={props.status}
+//         city={props.city} />
+// }
+//... it is spread operator which is es 6 feature
+const ProfileMaster = props => {
+    return <ProfileDetails {...props}  title="Profile details"/>
+}
+
+const ProfileDetails = props => {
+    return <div>
+        <h1>{props.title}</h1>
+        <h1>id {props.id}</h1>
+        <h1>Name {props.name}</h1>
+        <h1>City {props.city}</h1>
+        <h1>Status {props.status ? "available" : "Not Available"}</h1>
+    </div>
+
+}
+
+
+const App = () => <div>
+    <ProfileMaster id={1} name="subramanian" status={true} city="coimbatore" />
+</div>
+
+//render into browser 
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+// root.render(<Header></Header>)
+root.render(<App />)
+....................................................................................
+			Object Destructuring and React
+...................................................................................
+//object destructuring ; breaking object properties 
+
+// function showEmployee(employee) {
+//     console.log(`Id ${employee.id}`)
+//     console.log(`Name ${employee.name}`)
+//     console.log(`city ${employee.address.city}`)
+// }
+
+
+// function showEmployee(employee) {
+//     //destructuring 
+//     const { id, name, address: { city } } = employee
+//     console.log(`Id ${id}`)
+//     console.log(`Name ${name}`)
+//     // console.log(`city ${address.city}`)
+//     console.log(`city ${city}`)
+
+// }
+// function showEmployee({ id, name, address: { city } }) {
+//     //destructuring 
+//     console.log(`Id ${id}`)
+//     console.log(`Name ${name}`)
+//     // console.log(`city ${address.city}`)
+//     console.log(`city ${city}`)
+
+// }
+const showEmployee = ({ id, name, address: { city } }) => {
+    //destructuring 
+    console.log(`Id ${id}`)
+    console.log(`Name ${name}`)
+    // console.log(`city ${address.city}`)
+    console.log(`city ${city}`)
+
+}
+showEmployee({ id: 1, name: 'subramanian', address: { city: 'coimbatore' } })
+////////////////////////////////////////////////////////////////////////////////////
+
+//function which returns object
+// const getStockValue = () => {
+//     return {
+//         symbol: 'google',
+//         qty: 100,
+//         value: 10000
+//     }
+// }
+
+// const getStockValue = (symbol = 'google', qty = 100, value = 10000) => {
+//     return {
+//         symbol: symbol,
+//         qty: qty,
+//         value: value
+//     }
+// }
+// const getStockValue = (symbol = 'google', qty = 100, value = 10000) => {
+//     //leftside:rightside
+//     //objectProperty: localvariable
+//     //if object property and local variable is same , we can remove : and any variable
+//     return {
+//         symbol,
+//         qty,
+//         value
+//     }
+// }
+const getStockValue = (symbol = 'google', qty = 100, value = 10000) => ({
+    symbol,
+    qty,
+    value
+})
+
+console.log(getStockValue())
+console.log(getStockValue('Meta', 1000, 10000))
+
+.................................
+
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+
+const ProfileMaster = props => {
+    return <ProfileDetails {...props} title="Profile details" />
+}
+
+// const ProfileDetails = props => {
+//     return <div>
+//         <h1>{props.title}</h1>
+//         <h1>id {props.id}</h1>
+//         <h1>Name {props.name}</h1>
+//         <h1>City {props.city}</h1>
+//         <h1>Status {props.status ? "available" : "Not Available"}</h1>
+//     </div>
+// }
+// const ProfileDetails = props => {
+//     const { title, id, name, city, status } = props
+
+//     return <div>
+//         <h1>{title}</h1>
+//         <h1>id {id}</h1>
+//         <h1>Name {name}</h1>
+//         <h1>City {city}</h1>
+//         <h1>Status {status ? "available" : "Not Available"}</h1>
+//     </div>
+// }
+
+const ProfileDetails = ({ title, id, name, city, status }) => <div>
+    <h1>{title}</h1>
+    <h1>id {id}</h1>
+    <h1>Name {name}</h1>
+    <h1>City {city}</h1>
+    <h1>Status {status ? "available" : "Not Available"}</h1>
+</div>
+
+
+const App = () => <div>
+    <ProfileMaster id={1} name="subramanian" status={true} city="coimbatore" />
+</div>
+
+//render into browser 
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+// root.render(<Header></Header>)
+root.render(<App />)
+.....................................................................................
+			    State - How to change data / mutate data
+....................................................................................
+
+What if we encapsulate data inside component?
+ state
+
+state is pattern through which , the component will able to change data.
+
+How to implment state pattern?
+
+there are two ways
+
+1.class component - it is old way of representation.
+
+2.function component -  it is modern way of state represenation via "hooks"
+
+
+
+How React updates UI?
+
+via "render method"
+
+render:
+ 
+=>it is method called by "react engine".
+     can we call render directly inside event listener?
+        Yes,but no impact on ui update 
+    onIncrement = () => {
+         //increment value of state 
+        this.state.value = this.state.value + 1
+        console.log("value : ",this.state.value)
+        this.render()
+    }
+   Note : render should not be called directly
+
+How to call render?
+render is called by react engine only.
+how react engine will triger render?
+  via React api "setState() ,forceUpdate()"
+
+
+Syntax:
+
+setState(updater, [callback])
+
+updater = it is function
+callback =it is also function which optional parameter
+
+updater:
+ function having state mutation logic
+
+step1:
+    this.setState(function(){
+            console.log('state mutation logic goes')
+        })
+
+updater function syntax:
+
+takes two args
+
+1.state  is just variable you can have any name - holds the value of state object
+ which is called as "previous state" or "old state"
+2.props is just variable holding current props variable- which is optional
+
+function(state,[props]){
+            console.log('state mutation logic goes')
+}
+
+function(prevState){
+            console.log('state mutation logic goes')
+}
+
+Updater function returns object, what object, if you want to understand this , we need to under one more functional programming principle called "Pure function 2nd Rule".
+
+Updater function returns object, what object, if you want to understand this , we need to understand one more functional programming principle called "Pure function 2nd Rule".
+
+
+Pure Functions:
+
+Rule A:
+  If function receives input, the function returns the same input without any mutation.
+  Every Component with respect to props, are pure functions.
+
+Rule B:
+
+ What if function receives input, need to be mutated but it should follow the pure function rule.
+
+With help of "Immutablity"
+
+What is immutable?
+
+creating new object every time when you update the object , immutablity.
+
+if the function does that , that function is called pure function.
+
+pure function must return, "immutable object".
+
+//Pure functions :2nd rule
+
+//Impure function : it changes the input parameter
+function updateProfile_(profile, city) {
+    //update city and return updated profile object: 
+    profile.city = city
+    return profile;
+}
+//Pure function : i need to change the input parameter but it should be pure.
+function updateProfile(profile, city) {
+    //update city and return updated profile object: 
+    //return new Object ,by copying all properties ,with updated
+
+    //in order to return new Object we have many synatx
+    //old syntax : we copy object properties manually 
+    // return {
+    //     id: profile.id,
+    //     name: profile.name,
+    //     city: city
+    // }
+    //2nd syntax:
+    // return Object.assign({}, profile, { city: city })
+    //3rd syntax: spread notation
+    return { ...profile, city }
+}
+
+let profile = {
+    id: 1,
+    name: 'Subramanian',
+    city: 'Chennai'
+}
+// console.log('Before Update', profile)
+// console.log('After Update', updateProfile(profile, 'Coimbatore'))
+let updatedProfile = updateProfile(profile, 'Coimbatore')
+console.log(profile === updatedProfile ? "Same Object " : " Different Object")
+
+What you can make immutable?
+
+->literal objects
+->Array objects
+
+//Pure functions :2nd rule
+
+//Impure function : it changes the input parameter
+function updateProfile_(profile, city) {
+    //update city and return updated profile object: 
+    profile.city = city
+    return profile;
+}
+//Pure function : i need to change the input parameter but it should be pure.
+function updateProfile(profile, city) {
+    //update city and return updated profile object: 
+    //return new Object ,by copying all properties ,with updated
+
+    //in order to return new Object we have many synatx
+    //old syntax : we copy object properties manually 
+    // return {
+    //     id: profile.id,
+    //     name: profile.name,
+    //     city: city
+    // }
+    //2nd syntax:
+    // return Object.assign({}, profile, { city: city })
+    //3rd syntax: spread notation
+    return { ...profile, city }
+}
+
+let profile = {
+    id: 1,
+    name: 'Subramanian',
+    city: 'Chennai'
+}
+// console.log('Before Update', profile)
+// console.log('After Update', updateProfile(profile, 'Coimbatore'))
+let updatedProfile = updateProfile(profile, 'Coimbatore')
+console.log(profile === updatedProfile ? "Same Object " : " Different Object")
+
+//arrays and immutatblity
+//impure
+// function addTodo(todos, newTodo) {
+//     return todos.push(newTodo)
+// }
+//pure : how to return array immutable
+function addTodo(todos, newTodo) {
+    //return todos.concat(newTodo)
+    return [...todos,newTodo]
+}
+let todos = [{
+    title: 'Learn react',
+    done: true
+}];
+
+Object.freeze(todos)
+console.log(addTodo(todos, { title: 'Learn Pure functions', done: false }))
+
+List of Array immutable apis:
+
+1.concat
+2.map
+3.filter
+3.reduce
+
+updaterFunction Return value:
+
+=>Should return always immutable object.
+
+                    "setState method is pure function"
+
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+
+
+//state inside class component
+class Counter extends React.Component {
+    //Component state(data)
+    //Component state must be object
+    state = {
+        count: 0
+    }
+
+    //listener 
+    onIncrement = () => {
+        //console.log('onIncrement')
+        //this.state.count++
+        //console.log('onincrement',this.state)
+        this.setState((prevState)=> {
+            //writing state mutation logic
+            console.log('state mutation logic goes', prevState)
+            //this function must return object ?
+            // return {
+            //     count: prevState.count + 1
+            // }
+            //  return Object.assign({}, prevState, { count: prevState.count + 1 })
+            return { ...prevState, count: prevState.count + 1 }
+
+        })
+    }
+
+    render() {
+        console.log('render', this.state)
+        return <div>
+            <h1>Counter App</h1>
+            <h3>Count {this.state.count}</h3>
+            <button onClick={this.onIncrement}>+</button>
+        </div>
+    }
+}
+
+const App = () => <div>
+    <Counter />
+</div>
+
+//render into browser 
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+// root.render(<Header></Header>)
+root.render(<App />)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
