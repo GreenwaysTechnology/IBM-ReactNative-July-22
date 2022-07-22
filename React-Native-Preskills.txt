@@ -1466,7 +1466,17 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 // root.render(<Header></Header>)
 root.render(<App />)
+.....................................................................................
 
+Advanced Features:
+
+1.component life cycles 
+2.hooks
+3.Fragments
+4.context api
+5.API calls and async implementations
+6.Redux
+7.Immer js
 
 
 
