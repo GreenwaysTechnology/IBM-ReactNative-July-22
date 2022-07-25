@@ -309,29 +309,668 @@ npx react-native init myreactnativeApp
 
 How to run app?
 cd "E:\session\IBM\2022\july\ReactNative\myreactnativeApp" && npx react-native run-android
+.....................................................................................
+			   Expo Work flow Setup
+....................................................................................
+
+
+Expo work flow:
+..............
+
+Using npm
+
+npm install expo-cli --global
+expo init myNewProject
+cd myNewProject
+expo start
+
+Using npx
+
+npx create-expo-app my-app && cd my-app
+.....................................................................................
+				React Native Core Components
+.....................................................................................
+
+React Native offers lot of components but some components are core components.
+
+Basic components:
+..................
+
+1.View
+2.Text
+3.Image
+4.TextInput
+5.ScrollView
+6.StyleSheet
+
+1.View:
+.......
+  The most fundamental component for building a UI, View is a container that supports layout with flexbox, style, some touch handling, and accessibility controls. View maps directly to the native view equivalent on whatever platform React Native is running on, whether that is a UIView, <div>, android.view, etc.
+
+
+import { View } from "react-native";
+
+//Root Component
+function App() {
+   return <View>
+   </View>
+}
+
+export default App;
+
+2.Text
+	
+A React component for displaying text.
+
+Text supports nesting, styling, and touch handling.
 
 
 
+import { Text, View } from "react-native";
+
+//Root Component
+function App() {
+    return <View>
+        <Text>
+            Hello,React Native
+        </Text>
+        <Text>
+            Hello,React Native
+        </Text>
+        <Text>
+            Hello,React Native
+        </Text>
+    </View>
+}
+
+export default App;
+.....................................................................................					 JSX basic Rules
+....................................................................................
+
+JSX follows XML rules for markup design.
+
+1.In XML elements must organized under one parent element/root element, if not then it will throw error, same pattern is followed in react jsx as well.
+
+Error code
+<p>hai</p>
+<p>hai</p>
+  <Text>
+            Hello,React Native
+        </Text>
+        <Text>
+            Hello,React Native
+        </Text>
+        <Text>
+            Hello,React Native
+        </Text>
+
+<div>
+<p>hai</p>
+<p>hai</p>
+</div>
+<View>
+        <Text>
+            Hello,React Native
+        </Text>
+        <Text>
+            Hello,React Native
+        </Text>
+        <Text>
+            Hello,React Native
+        </Text>
+    </View>
+
+some times i dont want container elements.
+
+React 16 onwards, it is possible to have without container elements, with help of fragements
+
+Fragements are used to avoid unncessary view/div elements.
+Fragements are invisible container component.
+
+<React.Fragement>
+
+<React.Fragment>
+        <Text>
+            Hello,React Native
+        </Text>
+        <Text>
+            Hello,React Native
+        </Text>
+    </React.Fragment>
+
+Short cut:
+
+import React,{Fragment} from "react";
+import { Text, View } from "react-native";
+
+//Root Component
+function App() {
+    return <Fragment>
+        <Text>
+            Hello,React Native
+        </Text>
+        <Text>
+            Hello,React Native
+        </Text>
+    </Fragment>
+}
+
+export default App;
+
+
+import React, { Fragment } from "react";
+import { Text, View } from "react-native";
+
+//Root Component
+// function App() {
+//     return <View>
+//         <Text>
+//             Hello,React Native
+//         </Text>
+//         <Text>
+//             Hello,React Native
+//         </Text>
+//     </View>
+// }
+const App = () => <View>
+    <Text>
+        Hello,React Native!
+    </Text>
+    <Text>
+        Hello,React Native!!
+    </Text>
+</View>
+
+export default App;
+....................................................................................
+			 React Native Styles
+.....................................................................................
+
+Styles:
+
+React Native applications are platform independant: if android means, android spefic styles
+should be applied, if ios means ios specific styles should be challenge.
+                                                     
+						     
+ 						      |----Android
+ Common Style language/lib/framework----|build tool---|----IOS
+
+
+CSS is style language for web -browsers.
+
+Can we use CSS language for React Native?
+
+No!.
+
+React Native uses CSS INSIDE javascript:
+
+In React
+
+css
+.box{
+  background-color :'red'
+ }
+
+Way1
+ <div className="box">
+
+way 2
+
+javascript style object
+ <div style={ {backgroundColor:'red'} } />
+
+javascript style object properties:
+https://www.w3schools.com/jsref/dom_obj_style.asp
+
+
+React Native style representation:
+
+1.StyleSheet  is object through we can create styles and can be attached to any React native
+elements.
+
+Style can be applied in twos
+
+1.inline style object
+<View>
+
+</View>
+
+2.external style object
+<View>
+
+</View>
+
+
+import { View, Text, StyleSheet } from "react-native"
+
+
+// const App = () => {
+//     // inline style 
+//     return <View style={{backgroundColor:'pink'}}>
+//         <Text>
+//             Welcome to React Native
+//         </Text>
+//     </View>
+// }
+
+//external style object 
+const styles = StyleSheet.create({
+    backgroundColor: 'yellow'
+})
+
+
+const App = () => {
+    // inline style 
+    return <View style={styles}>
+        <Text>
+            Welcome to React Native
+        </Text>
+    </View>
+}
+export default App;
+.....................................................................................
+		    Styling Indivdual Components
+....................................................................................
+
+Component is collection of userinterface elements like view,text...
+
+How to write style for View and Text separtely.
+
+const styles = StyleSheet.create({
+    container: { 
+	 backgroundColor: 'yellow'
+    }
+})
+
+eg:
+import { View, Text, StyleSheet } from "react-native"
+
+
+// const App = () => {
+//     // inline style 
+//     return <View style={{backgroundColor:'pink'}}>
+//         <Text>
+//             Welcome to React Native
+//         </Text>
+//     </View>
+// }
+
+//external style object 
+// const styles = StyleSheet.create({
+//     backgroundColor: 'yellow'
+// })
+
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: 'yellow'
+    },
+    text: {
+        fontSize: 100,
+        color: "red",
+    }
+
+})
+
+
+const App = () => {
+    // inline style 
+    return <View style={styles.container}>
+        <Text style={styles.text}>
+            Welcome to React Native
+        </Text>
+    </View>
+}
+export default App;
+.....................................................................................
+		How to simplify the code using object destructuring
+.....................................................................................
+import { View, Text, StyleSheet } from "react-native"
+
+
+// const App = () => {
+//     // inline style 
+//     return <View style={{backgroundColor:'pink'}}>
+//         <Text>
+//             Welcome to React Native
+//         </Text>
+//     </View>
+// }
+
+//external style object 
+// const styles = StyleSheet.create({
+//     backgroundColor: 'yellow'
+// })
+
+// const styles = StyleSheet.create({
+//     container: {
+//         backgroundColor: 'yellow'
+//     },
+//     text: {
+//         fontSize: 100,
+//         color: "red",
+//     }
+
+// })
+
+const { container, text } = StyleSheet.create({
+    container: {
+        backgroundColor: 'yellow'
+    },
+    text: {
+        fontSize: 100,
+        color: "blue",
+    }
+
+})
+
+
+const App = () => {
+    // inline style 
+    return <View style={container}>
+        <Text style={text}>
+            Welcome to React Native
+        </Text>
+    </View>
+}
+export default App;
+.....................................................................................
+				Style Composing
+.....................................................................................
+
+StyleSheet.compose:
+Combines two styles such that style2 will override any styles in style1. If either style is falsy, the other one is returned without allocating an array, saving allocations and maintaining reference equality for PureComponent checks
+
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+
+const App = () => (
+    <View style={container}>
+        <Text style={text}>React Native</Text>
+    </View>
+);
+
+const page = StyleSheet.create({
+    //style-1
+    container: {
+        flex: 1,
+        padding: 24,
+        backgroundColor: 'yellow',
+    },
+    text: {
+        fontSize: 30,
+        color: '#000'
+    },
+});
+
+const lists = StyleSheet.create({
+    //style-2
+    listContainer: {
+        flex: 1,
+        backgroundColor: 'green',
+    },
+    listItem: {
+        fontStyle: 'italic',
+        fontWeight: 'bold'
+    },
+});
+
+//here style one will be overriden by style2
+const container = StyleSheet.compose(page.container, lists.listContainer);
+const text = StyleSheet.compose(page.text, lists.listItem);
+
+export default App;
+....................................................................................
+We can write global styles for the entire app and we can override for any where in the app.
+
+eg:
+myexpo/globalstyles
+    page.js
+import { StyleSheet } from "react-native";
+
+export const page = StyleSheet.create({
+    //style-1
+    container: {
+        flex: 1,
+        padding: 24,
+        backgroundColor: 'yellow',
+    },
+    text: {
+        fontSize: 30,
+        color: '#000'
+    },
+});
+
+App.js
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { page } from './globalstyles/page';
+
+const App = () => (
+    <View style={container}>
+        <Text style={text}>React Native</Text>
+    </View>
+);
+
+const lists = StyleSheet.create({
+    //style-2
+    listContainer: {
+        flex: 1,
+       // backgroundColor: 'green',
+    },
+    listItem: {
+        fontStyle: 'italic',
+        fontWeight: 'bold'
+    },
+});
+
+//here style one will be overriden by style2
+const container = StyleSheet.compose(page.container, lists.listContainer);
+const text = StyleSheet.compose(page.text, lists.listItem);
+
+export default App;
+..................................................................................
+			 Merging many styles into one
+			Merging array of styles into one
+..................................................................................
+
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+
+const App = () => (
+  <View style={page.container}>
+    <Text style={flattenStyle}>React Native</Text>
+    <Text>Flatten Style</Text>
+    <Text style={page.code}>
+      {JSON.stringify(flattenStyle, null, 2)}
+    </Text>
+  </View>
+);
+
+const page = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 24,
+    alignItems: "center"
+  },
+  text: {
+    color: "#000",
+    fontSize: 14,
+    fontWeight: "bold"
+  },
+  code: {
+    marginTop: 12,
+    padding: 12,
+    borderRadius: 8,
+    color: "#666",
+    backgroundColor: "#eaeaea"
+  }
+});
+
+const typography = StyleSheet.create({
+  header: {
+    color: "#61dafb",
+    fontSize: 30,
+    marginBottom: 36
+  }
+});
+
+const flattenStyle = StyleSheet.flatten([
+  page.text,
+  typography.header
+]);
+
+export default App;
+...................................................................................
+				compose vs flatten
+
+1.compose will override from style1 properties to style2 properties.
+  where as flatten also does same but ,it may take more styles objects(array of styles)
+2.compose will not add any new properties,where flatten will add new properties from the style1 to style-N
+.....................................................................................
+				Style Sheet Properties
+....................................................................................
+
+1.absoluteFill :
+A very common pattern is to create overlays with position absolute and zero positioning (position: 'absolute', left: 0, right: 0, top: 0, bottom: 0), so absoluteFill can be used for convenience and to reduce duplication of these repeated styles.
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+
+const App = () => (
+    <View style={styles.container}>
+        <View style={styles.box1}>
+            <Text style={styles.text}>1</Text>
+        </View>
+        <View style={styles.box2}>
+            <Text style={styles.text}>2</Text>
+        </View>
+        <View style={styles.box3}>
+            <Text style={styles.text}>3</Text>
+        </View>
+    </View>
+);
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1
+    },
+    box1: {
+        position: 'absolute',
+        top: 40,
+        left: 40,
+        width: 100,
+        height: 100,
+        backgroundColor: 'red'
+    },
+    box2: {
+        /**
+         * ...StyleSheet.obsoluteFill to be merged with existing styles with default values.
+         * ...spread operator is used here to merge with existing object properties
+         */
+        ...StyleSheet.absoluteFill,
+        width: 100,
+        height: 100,
+        backgroundColor: 'blue'
+    },
+    box3: {
+        position: 'absolute',
+        top: 120,
+        left: 120,
+        width: 100,
+        height: 100,
+        backgroundColor: 'green'
+    },
+    text: {
+        color: '#FFF',
+        fontSize: 80
+    }
+});
+
+export default App;
+
+/////////////////////////////////////////////////////////////////////////////////////
+                            hairlineWidth
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+
+const App = () => (
+    <View style={styles.container}>
+        <Text style={styles.row}>React</Text>
+        <Text style={styles.row}>Native</Text>
+    </View>
+);
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 24
+    },
+    row: {
+        padding: 4,
+        borderBottomColor: "red",
+        borderBottomWidth: StyleSheet.hairlineWidth
+    }
+});
+
+export default App
+.....................................................................................
+			   Component Composition
+.....................................................................................
+
+import { React } from 'react'
+
+import { View, Text, StyleSheet } from 'react-native'
+
+const Greeter = () => <>
+    <Text>Greeter!!!</Text>
+</>
+
+//Root Component
+const App = () => <View style={styles.container}>
+    <Greeter />
+</View>
 
 
 
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+});
+export default App;
+....................................................................................
+rootfolder
+  -greeter
+     Greeter.jsx
+import { Text } from "react-native"
+
+export const Greeter = () => <>
+    <Text>Greeter</Text>
+</>
+
+rootFolder
+  App.js
+import { React } from 'react'
+import { View, Text, StyleSheet } from 'react-native'
+import { Greeter } from './greeter/Greeter';
+
+//Root Component
+const App = () => <View style={styles.container}>
+    <Greeter />
+</View>
 
 
-
-
-
-
-
-
-
-
-
-
-
-////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+});
+export default App;
 
 
 
