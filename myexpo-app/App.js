@@ -1,25 +1,26 @@
-import { React } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
-import { Greeter } from './greeter/Greeter';
-import { User } from './users/User';
+import React from 'react';
+import {
+    View
+} from 'react-native';
 
-//Root Component
-const App = () => <View style={styles.container}>
-    <Greeter />
-    <Greeter message="Hello" name="Subramanian" />
-    <Greeter message="Hello" name="Ram" />
-    <User user={{ id: 1, name: 'Subramanian', city: 'Coimbatore' }} skills={
-        ['Java','Javascript','Devops','Cloud']
-    } />
-</View>
+const FixedDimensionsBasics = () => {
+    return (
+        <View>
+            <View style={{
+                width: 50, height: 50, backgroundColor: 'powderblue'
+            }} />
+            <View style={{
+                width: 100, height: 100, backgroundColor: 'skyblue'
+            }} />
+            <View style={{
+                width: 150, height: 150, backgroundColor: 'steelblue'
+            }} />
+        </View>
+    );
+};
+
+const App = () => <FixedDimensionsBasics />
 
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-});
+
 export default App;
