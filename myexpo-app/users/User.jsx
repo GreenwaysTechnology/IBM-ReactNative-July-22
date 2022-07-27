@@ -1,4 +1,4 @@
-import { Text,View } from "react-native"
+import { Text, View } from "react-native"
 
 export const User = props => <>
     <Text>Id : {props.user.id}</Text>
@@ -6,8 +6,8 @@ export const User = props => <>
     <Text>City : {props.user.city}</Text>
     <View>
         {
-            props.skills.map(skill => {
-                return <Text>{skill}</Text>
+            props.skills.map((skill, index) => {
+                return <Text key={index}>{skill}</Text>
             })
         }
 

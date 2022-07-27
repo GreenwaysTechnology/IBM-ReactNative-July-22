@@ -1434,7 +1434,7 @@ Color Representation:
 
 RGB
 HSL
-color init
+color int
 color strings
 
 https://reactnative.dev/docs/colors
@@ -1567,6 +1567,7 @@ Height and Width
 
 Fixed Dimensions
    The general way to set the dimensions of a component is by adding a fixed width and height to style. All dimensions in React Native are unitless, and represent density-independent pixels
+
 import React from 'react';
 import {
     View
@@ -1655,6 +1656,7 @@ Layout types in css/Web:
 1.box layout - height,width,float,alignments
 2.grid layout
 3.flex box
+
 Flex Box:
 
 What is flex box / flex?
@@ -1687,14 +1689,543 @@ eg:
 
 flex : 1 
 
+flex will define how your items are going to “fill” over the available space along your main axis. Space will be divided according to each element's flex property.
+
+The main axis is defined by "flex-direction" which has four values
+
+ row
+ row-reverse
+ column
+ column-reverse
+
+ flexDirection: row | column | row-reverse | column-reverse
+
+https://medium.com/wix-engineering/the-full-react-native-layout-cheat-sheet-a4147802405c
+https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Basic_Concepts_of_Flexbox
+
+import React, { Component } from 'react';
+import { View, Text } from 'react-native';
+
+const App = () => {
+    // Try setting `flexDirection` to 'column'/'column-reverse'/'row'/'row-reverse'
+    return <View style={styles.container}>
+        <Text style={styles.headerStyle}>flexDirection: 'row-reverse'</Text>
+        {/* <View style={[{ flexDirection: 'row' }, styles.elementsContainer]}> */}
+        {/* <View style={[{ flexDirection: 'row-reverse' }, styles.elementsContainer]}> */}
+        {/* <View style={[{ flexDirection: 'column-reverse' }, styles.elementsContainer]}> */}
+        <View style={[{ flexDirection: 'row-reverse',justifyContent:'space-around' }, styles.elementsContainer]}>
+            <View style={{ width: 50, height: 50, backgroundColor: '#EE2C38' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: '#FAA030' }} />
+            <View style={{ width: 50, height: 50, backgroundColor: '#32B76C' }} />
+        </View>
+    </View>
+}
+
+const styles = {
+    container: {
+        marginTop: 48,
+        backgroundColor:'pink',
+        flex: 1
+    },
+    headerStyle: {
+        fontSize: 24,
+        textAlign: 'center',
+        fontWeight: '100',
+        marginBottom: 24
+    },
+    elementsContainer: {
+        flex: 1,
+        paddingLeft: 10,
+        paddingTop:  10,
+        backgroundColor: '#ecf5fd',
+        marginLeft: 24,
+        marginRight: 24,
+        marginBottom: 24
+    }
+}
+
+export default App;
+.....................................................................................
+			 Mobile App Layouts
+.....................................................................................
+
+Mobile Apps are mostly based on layoutting model is called "ListView"
+
+View Types:
+
+1.View 
+   Container View which contains other views and components
+   It does not Scrollable
+2.ScrollView
+3.FlatList
+...................................................................................
+		         ScrollView
+
+import React, { Component } from 'react';
+import { View, Text, ScrollView } from 'react-native';
+
+const App = () => {
+    // Try setting `flexDirection` to 'column'/'column-reverse'/'row'/'row-reverse'
+    return <View style={styles.container}>
+        <Text style={styles.headerStyle}>ScrollView</Text>
+       
+        <ScrollView style={[{ flexDirection: 'column' }, styles.elementsContainer]}>
+             <Text style={{color:'red', fontWeight:'bold',fontFamily:'Calibri'}}>
+             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                    ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+                    sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+                    est laborum.
+
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                    ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+                    sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+                    est laborum.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                    ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+                    sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+                    est laborum.  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                    ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+                    sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+                    est laborum.  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                    ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+                    sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+                    est laborum.  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                    ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+                    sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+                    est laborum.  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                    ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+                    sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+                    est laborum.  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                    ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+                    sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+                    est laborum.    
+             </Text>
+             <Text style={{color:'blue'}}>
+             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                    ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+                    sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+                    est laborum.
+
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                    ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+                    sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+                    est laborum.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                    ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+                    sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+                    est laborum.  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                    ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+                    sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+                    est laborum.  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                    ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+                    sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+                    est laborum.  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                    ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+                    sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+                    est laborum.  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                    ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+                    sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+                    est laborum.  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                    ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+                    sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+                    est laborum.    
+             </Text>
+        </ScrollView>
+    </View>
+}
+
+const styles = {
+    container: {
+        marginTop: 48,
+        backgroundColor:'pink',
+        flex: 1
+    },
+    headerStyle: {
+        fontSize: 24,
+        textAlign: 'center',
+        fontWeight: '100',
+        marginBottom: 24
+    },
+    elementsContainer: {
+        flex: 1,
+        paddingLeft: 10,
+        paddingTop:  10,
+        backgroundColor: '#ecf5fd',
+        marginLeft: 24,
+        marginRight: 24,
+        marginBottom: 24
+    }
+}
+
+export default App;
+.....................................................................................
+				FlatList and SectionList
+.....................................................................................
+
+
+FlatList: 
+
+To render list along with scrollbar.
+
+<ScrollView> vs <FlatList> - which one to use?
+
+ScrollView renders all its react child components at once, but this has a performance downside.
+
+Imagine you have a very long list of items you want to display, maybe several screens worth of content. Creating JS components and native views for everything all at once, much of which may not even be shown, will contribute to slow rendering and increased memory usage.
+
+This is where FlatList comes into play. FlatList renders items lazily, when they are about to appear, and removes items that scroll way off screen to save memory and processing time.
+
+FlatList is also handy if you want to render separators between your items, multiple columns, infinite scroll loading, or any number of other features it supports out of the box.
+
+Fully cross-platform.
+Optional horizontal mode.
+Configurable viewability callbacks.
+Header support.
+Footer support.
+Separator support.
+Pull to Refresh.
+Scroll loading.
+ScrollToIndex support.
+Multiple column support.
+
+Syntax:
+const users = [{id:1,name:'a'}]
+
+<FlatList 
+         keyExtractor={(item)=>item.id} 
+         data={users}
+         renderItem={({item}) => (
+            <Text style={styles.item}>{item.name}</Text>
+)} />
+
+keyExtractor:
+	which is eq key prop in react.
+(item: object, index: number) => string;
+
+Used to extract a unique key for a given item at the specified index. Key is used for caching and as the react key to track item re-ordering. The default extractor checks item.key, then item.id, and then falls back to using the index, like React does.
+
+eg:  
+  users.map(user=>{
+     return <li key={user.id}>
+	
+   </li>
+  })
+
+data:
+  which binds array as data source
+
+renderItem : {renderItemFunction}
+
+renderItemFunction(item:Object,index:number,separators:Object){
+	
+}
+
+  <FlatList
+            data={messageList}
+            renderItem={
+                (obj) => {
+                    console.log(obj)
+                    return <Text>something</Text>
+                }
+            }
+        />
+
+output:
+Object {
+  "index": 0,
+  "item": Object {
+    "id": 1,
+    "message": "hello",
+  },
+  "separators": Object {
+    "highlight": [Function highlight],
+    "unhighlight": [Function unhighlight],
+    "updateProps": [Function updateProps],
+  },
+}
+renderItem function returns one single object which has three keys
+
+1.index
+2.item
+3.separators
+
+ <FlatList
+            data={messageList}
+            renderItem={
+                (obj) => {
+                    console.log(obj)
+                    return <Text>{obj.item.message}</Text>
+                }
+            }
+        />
+        <FlatList
+            data={messageList}
+            renderItem={
+                ({ item, index, separators }) => {
+                    console.log(item, index, separators)
+                    return <Text>{item.message}</Text>
+                }
+            }
+        />
+        <FlatList
+            data={messageList}
+            renderItem={
+                ({ item, index, separators }) => {
+                    console.log(item, index, separators)
+                    const { message } = item
+                    return <Text>{message}</Text>
+                }
+            }
+        />
+....................................................................................
+			   import React, { Component } from 'react';
+import { View, Text, ScrollView, FlatList } from 'react-native';
+
+
+const messageList = [{
+    id: 1,
+    message: 'hello'
+},
+{
+    id: 2,
+    message: 'hai'
+},
+{
+    id: 3,
+    message: 'welcome'
+},
+{
+    id: 4,
+    message: 'greet'
+}
+
+]
+
+const App = () => {
+    // Try setting `flexDirection` to 'column'/'column-reverse'/'row'/'row-reverse'
+    return <View style={styles.container}>
+        <Text style={styles.headerStyle}>ListView</Text>
+        {/* <FlatList
+            data={messageList}
+            renderItem={
+                (obj) => {
+                    console.log(obj)
+                    return <Text>something</Text>
+                }
+            }
+        /> */}
+        <FlatList
+            data={messageList}
+            renderItem={
+                (obj) => {
+                    console.log(obj)
+                    return <Text>{obj.item.message}</Text>
+                }
+            }
+        />
+        <FlatList
+            data={messageList}
+            renderItem={
+                ({ item, index, separators }) => {
+                    console.log(item, index, separators)
+                    return <Text>{item.message}</Text>
+                }
+            }
+        />
+        <FlatList
+            keyExtractor={(message) => {
+                console.log('keyExtractor', message)
+                return message.id
+            }}
+            data={messageList}
+            renderItem={
+                ({ item, index, separators }) => {
+                    console.log(item, index, separators)
+                    const { message } = item
+                    return <Text>{message}</Text>
+                }
+            }
+        />
+    </View>
+}
+
+const styles = {
+    container: {
+        marginTop: 48,
+        backgroundColor: 'pink',
+        flex: 1
+    },
+    headerStyle: {
+        fontSize: 24,
+        fontWeight: 'bolder',
+        textAlign: 'center',
+        marginBottom: 24
+    },
+    elementsContainer: {
+        flex: 1,
+        paddingLeft: 10,
+        paddingTop: 10,
+        backgroundColor: '#ecf5fd',
+        marginLeft: 24,
+        marginRight: 24,
+        marginBottom: 24
+    }
+}
+
+export default App;
+.....................................................................................
+			WebService/Back End Integrations
+.....................................................................................
+
+ReactNative does not have any opinion which lib for talking to backend services.
+
+Most Popular libs for react echo system.
+
+1.fetch api
+2.axios
+
+When to make api calls in Ui apps.
+
+1.during inital render
+  when you lanuch app, you need to load data ,that time we need to talk to api
+2.after user interaction
+  when you submit a form,you press some item, when you press a menu...
+
+1.during inital render
+  when you lanuch app, you need to load data ,that time we need to talk to api
+
+Component Life Cycles:
+......................
+
+Every Component has three life cycle phase.
+Each Phase has different apis
+
+Phases
+1.mount
+   This phase is a inital phase
+
+constructor - not used widely even in class components
+2.render :
+   render is method used to prepare inital "virtual object tree"
+after render completes,
+  React engine will insert virtual object tree into platforms(browser / mobile)
+
+3.componentDidMount is called
+   Inside componentDidMount we are going to perform most expensive operations
+eg:
+  ajax/api calls
+  Timers
+  Websocket calls
+
+2.update
+3.unmount
+
+import React, { Component, useEffect, useState } from 'react';
+import { View, Text, FlatList, StatusBar, StyleSheet, Alert } from 'react-native';
+
+
+//Post component
+export const Post = props => {
+
+    const [posts, setPosts] = useState([])
+
+    //componentDid == useEffect 
+    useEffect(() => {
+        const url = 'https://jsonplaceholder.typicode.com/posts'
+        fetch(url)
+            .then(res => res.json())
+            .then(posts => {
+                setTimeout(() => {
+                    setPosts(prvPosts => {
+                        return prvPosts.concat(posts)
+                    })
+                }, 5000)
+
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }, [])
+
+    console.log('Post Component is rendering for now')
+
+    const onPressItem = item => {
+        console.log(item)
+        Alert.alert(JSON.stringify(item))
+    }
+
+    return <View>
+        <Text style={styles.headerStyle}>POST Fetching</Text>
+        <FlatList
+            keyExtractor={(post) => {
+                return post.id
+            }}
+            data={posts}
+            renderItem={
+                ({ item }) => {
+                    const { title } = item
+                    return <View style={styles.item}>
+                        <Text onPress={() => { onPressItem(item) }} style={styles.title}>{title}</Text>
+                    </View>
+                }
+            }
+        />
+    </View>
+}
 
 
 
+const App = () => {
+    return <View style={styles.container}>
+        <Post />
+    </View>
+}
 
-
-
-
-
-
-
-
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        marginTop: StatusBar.currentHeight || 0,
+    },
+    item: {
+        backgroundColor: '#f9c2ff',
+        padding: 20,
+        marginVertical: 8,
+        marginHorizontal: 16,
+    },
+    title: {
+        fontSize: 32,
+    },
+});
+export default App;
