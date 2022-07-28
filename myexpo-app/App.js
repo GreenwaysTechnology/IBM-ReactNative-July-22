@@ -1,77 +1,83 @@
-import React, { Component, useEffect, useState } from 'react';
-import { View, Text, FlatList, StatusBar, StyleSheet, Alert } from 'react-native';
-
-
-//Post component
-export const Post = props => {
-
-    const [posts, setPosts] = useState([])
-
-    //componentDid == useEffect 
-    useEffect(() => {
-        const url = 'https://jsonplaceholder.typicode.com/posts'
-        fetch(url)
-            .then(res => res.json())
-            .then(posts => {
-                setTimeout(() => {
-                    setPosts(prvPosts => {
-                        return prvPosts.concat(posts)
-                    })
-                }, 5000)
-
-            })
-            .catch(err => {
-                console.log(err)
-            })
-    }, [])
-
-    console.log('Post Component is rendering for now')
-
-    const onPressItem = item => {
-        console.log(item)
-        Alert.alert(JSON.stringify(item))
-    }
-
-    return <View>
-        <Text style={styles.headerStyle}>POST Fetching</Text>
-        <FlatList
-            keyExtractor={(post) => {
-                return post.id
-            }}
-            data={posts}
-            renderItem={
-                ({ item }) => {
-                    const { title } = item
-                    return <View style={styles.item}>
-                        <Text onPress={() => { onPressItem(item) }} style={styles.title}>{title}</Text>
-                    </View>
-                }
-            }
-        />
-    </View>
-}
-
-
+import React, { useState } from "react";
+import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
 
 const App = () => {
-    return <View style={styles.container}>
-        <Post />
-    </View>
-}
+    const [modalVisible, setModalVisible] = useState(false);
+    return (
+        <View style={styles.centeredView}>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    Alert.alert("Modal has been closed.");
+                    setModalVisible(!modalVisible);
+                }}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <Text style={styles.modalText}>Hello World!</Text>
+                        <Pressable
+                            style={[styles.button, styles.buttonClose]}
+                            onPress={() => setModalVisible(!modalVisible)}
+                        >
+                            <Text style={styles.textStyle}>Hide Modal</Text>
+                        </Pressable>
+                    </View>
+                </View>
+            </Modal>
+            <Pressable
+                style={[styles.button, styles.buttonOpen]}
+                onPress={() => setModalVisible(true)}
+            >
+                <Text style={styles.textStyle}>Show Modal</Text>
+            </Pressable>
+        </View>
+    );
+};
 
 const styles = StyleSheet.create({
-    container: {
+    centeredView: {
         flex: 1,
-        marginTop: StatusBar.currentHeight || 0,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 22
     },
-    item: {
-        backgroundColor: '#f9c2ff',
-        padding: 20,
-        marginVertical: 8,
-        marginHorizontal: 16,
+    modalView: {
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
     },
-    title: {
-        fontSize: 32,
+    button: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2
     },
+    buttonOpen: {
+        backgroundColor: "#F194FF",
+    },
+    buttonClose: {
+        backgroundColor: "#2196F3",
+    },
+    textStyle: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center"
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: "center"
+    }
 });
+
 export default App;
