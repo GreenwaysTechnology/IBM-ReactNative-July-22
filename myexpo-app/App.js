@@ -1,83 +1,131 @@
-import React, { useState } from "react";
-import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
+import { NavigationContainer } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { View, Text, FlatList, StatusBar, Button, ActivityIndicator, StyleSheet, Alert } from 'react-native';
+
+//create Object By calling createNativeStackNavigator function 
+const { Navigator, Screen } = createNativeStackNavigator()
+
+export const HomeScreen = props => {
+    const { navigation } = props;
+    const moveToScreen = () => {
+        navigation.navigate('Post')
+    }
+    return <View style={styles.container}>
+        <Button title="Post" onPress={moveToScreen} />
+    </View>
+}
+HomeScreen.defaultProps = {
+    title: ''
+}
+
+export const PostDetailsScreen = props => {
+    const { navigation, route: { params: { item } } } = props;
+    console.log(item)
+    return <View style={styles.container}>
+        <Text>{
+            JSON.stringify(item)
+        }</Text>
+    </View>
+}
+
+export const PostScreen = props => {
+
+    const { navigation } = props;
+
+    const [posts, setPosts] = useState({
+        error: null, // if any ajax error
+        isLoaded: false, //Progress bar enabler
+        items: []  // data to be filed
+    })
+
+    //componentDid == useEffect 
+    useEffect(() => {
+        const url = 'https://jsonplaceholder.typicode.com/posts'
+        fetch(url)
+            .then(res => res.json())
+            .then(posts => {
+                setTimeout(() => {
+                    setPosts(prvState => {
+                        return { ...prvState, isLoaded: true, items: posts }
+                    });
+                }, 0)
+
+            }, (error) => {
+                setPosts({
+                    isLoaded: true,
+                    error
+                });
+            })
+
+    }, [])
+
+
+    const onPressItem = item => {
+        navigation.navigate('PostDetails', { item: item })
+    }
+    //use object destructuring
+    const { error, items, isLoaded } = posts;
+
+    if (error) {
+        //render error component
+        return <View style={styles.error}> Error: {error.message}</View>;
+    } else if (!isLoaded) {
+        return <View style={styles.loader}>
+            <ActivityIndicator size="large" color="#00ff00" />
+        </View>;
+    } else {
+        return <View styles={styles.container}>
+            <FlatList
+                keyExtractor={(post) => {
+                    return post.id
+                }}
+                data={items}
+                renderItem={
+                    ({ item }) => {
+                        const { title } = item
+                        return <View style={styles.item}>
+                            <Text onPress={() => { onPressItem(item) }} style={styles.title}>{title}</Text>
+                        </View>
+                    }
+                }
+            />
+        </View>
+    }
+
+}
+
+
+
+
 
 const App = () => {
-    const [modalVisible, setModalVisible] = useState(false);
-    return (
-        <View style={styles.centeredView}>
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => {
-                    Alert.alert("Modal has been closed.");
-                    setModalVisible(!modalVisible);
+    return <NavigationContainer>
+        <Navigator initialRouteName='Home'>
+            <Screen name="Home" options={{ title: 'Post Application' }}>
+                {props => {
+                    return <HomeScreen {...props} />
                 }}
-            >
-                <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                        <Text style={styles.modalText}>Hello World!</Text>
-                        <Pressable
-                            style={[styles.button, styles.buttonClose]}
-                            onPress={() => setModalVisible(!modalVisible)}
-                        >
-                            <Text style={styles.textStyle}>Hide Modal</Text>
-                        </Pressable>
-                    </View>
-                </View>
-            </Modal>
-            <Pressable
-                style={[styles.button, styles.buttonOpen]}
-                onPress={() => setModalVisible(true)}
-            >
-                <Text style={styles.textStyle}>Show Modal</Text>
-            </Pressable>
-        </View>
-    );
-};
+            </Screen>
+            <Screen name="Post" component={PostScreen} />
+            <Screen name="PostDetails" component={PostDetailsScreen} />
+        </Navigator>
+    </NavigationContainer>
+}
 
 const styles = StyleSheet.create({
-    centeredView: {
+    container: {
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: 22
+        marginTop: StatusBar.currentHeight || 0,
     },
-    modalView: {
-        margin: 20,
-        backgroundColor: "white",
-        borderRadius: 20,
-        padding: 35,
-        alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5
+    item: {
+        backgroundColor: '#f9c2ff',
+        padding: 20,
+        marginVertical: 8,
+        marginHorizontal: 16,
     },
-    button: {
-        borderRadius: 20,
-        padding: 10,
-        elevation: 2
+    title: {
+        fontSize: 32,
     },
-    buttonOpen: {
-        backgroundColor: "#F194FF",
-    },
-    buttonClose: {
-        backgroundColor: "#2196F3",
-    },
-    textStyle: {
-        color: "white",
-        fontWeight: "bold",
-        textAlign: "center"
-    },
-    modalText: {
-        marginBottom: 15,
-        textAlign: "center"
-    }
 });
-
 export default App;
